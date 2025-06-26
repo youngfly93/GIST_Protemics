@@ -1,0 +1,36 @@
+# R related files
+.Rhistory
+.Rapp.history
+.RData
+.Ruserdata
+*.Rproj
+.Rproj.user/
+
+# Shiny related
+rsconnect/
+www/plot_*.png
+
+# Data files - exclude all RDS files (they are usually large and binary)
+*.rds
+*.RDS
+*.RData
+
+# Large data files that should not be pushed to GitHub
+# Proteomics_ID_Pathway_list.RDS (now covered by *.RDS)
+# correlation_data/Proteomics_Sun_s_Study.RDS (now covered by *.RDS)
+
+# Log files
+*.log
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*~
+*.tmp
+*.temp
+
+# IDE files
+.vscode/
+.idea/

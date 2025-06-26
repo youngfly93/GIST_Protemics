@@ -1,0 +1,68 @@
+/* AI聊天机器人按钮样式 */
+
+/* Summary按钮样式 */
+.ai-chat-btn.ai-chat-summary {
+  background-color: #28a745 !important;
+  border-color: #28a745 !important;
+  color: white !important;
+  transition: all 0.3s ease;
+}
+
+.ai-chat-btn.ai-chat-summary:hover {
+  background-color: #218838 !important;
+  border-color: #1e7e34 !important;
+  transform: scale(1.05);
+}
+
+/* Clear History按钮样式 */
+.ai-chat-btn.ai-chat-clear {
+  background-color: #dc3545 !important;
+  border-color: #dc3545 !important;
+  color: white !important;
+  transition: all 0.3s ease;
+}
+
+.ai-chat-btn.ai-chat-clear:hover {
+  background-color: #c82333 !important;
+  border-color: #bd2130 !important;
+  transform: scale(1.05);
+}
+
+/* 确保按钮间距协调 */
+.ai-chat-controls .ai-chat-btn {
+  margin-left: 5px;
+  min-width: 35px;
+  height: 35px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 14px;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+
+/* 按钮hover效果 */
+.ai-chat-btn:hover {
+  opacity: 0.9;
+}
+
+/* 按钮工具提示样式优化 */
+.ai-chat-btn[title] {
+  position: relative;
+}
+
+/* 响应式设计 - 在小屏幕上隐藏按钮文字，只显示图标 */
+@media (max-width: 768px) {
+  .ai-chat-controls {
+    display: flex;
+    gap: 3px;
+  }
+  
+  .ai-chat-btn {
+    min-width: 30px !important;
+    height: 30px !important;
+    font-size: 12px !important;
+  }
+}

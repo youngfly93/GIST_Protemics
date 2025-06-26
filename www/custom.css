@@ -1,0 +1,1254 @@
+
+/* GIST Shiny - 与主网站风格一致的样式 */
+
+/* CSS 设计变量 - 与 GIST_web 保持一致 */
+:root {
+  /* Brand Primary */
+  --clr-primary-900: #0F2B2E;
+  --clr-primary-700: #163A3D;
+  --clr-primary-500: #1C484C;
+  --clr-primary-300: #3C6B6F;
+  --clr-primary-100: #D7E4E5;
+  --clr-primary-050: #F2F7F7;
+
+  /* Accent */
+  --clr-accent-coral: #E87D4C;
+  --clr-accent-lime: #9CCB3B;
+  --clr-accent-sky: #2F8FBF;
+
+  /* Neutrals */
+  --clr-gray-900: #1A1A1A;
+  --clr-gray-700: #444444;
+  --clr-gray-600: #666666;
+  --clr-gray-500: #8A8A8A;
+  --clr-gray-300: #CCCCCC;
+  --clr-gray-200: #E5E5E5;
+  --clr-gray-050: #FAFAFA;
+
+  /* Spacing System (8pt grid) */
+  --space-1: 0.5rem;   /* 8px */
+  --space-2: 1rem;     /* 16px */
+  --space-3: 1.5rem;   /* 24px */
+  --space-4: 2rem;     /* 32px */
+  --space-5: 2.5rem;   /* 40px */
+  --space-6: 3rem;     /* 48px */
+  --space-8: 4rem;     /* 64px */
+
+  /* Typography Scale */
+  --text-xs: 0.75rem;   /* 12px */
+  --text-sm: 0.875rem;  /* 14px */
+  --text-base: 1rem;    /* 16px */
+  --text-lg: 1.25rem;   /* 20px */
+  --text-xl: 1.5rem;    /* 24px */
+  --text-2xl: 2rem;     /* 32px */
+  --text-3xl: 3rem;     /* 48px */
+
+  /* Border Radius */
+  --radius-sm: 0.5rem;   /* 8px */
+  --radius-md: 1rem;     /* 16px */
+  --radius-lg: 1.5rem;   /* 24px */
+
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 350ms ease;
+}
+
+/* 全局样式重置 */
+body {
+    background-color: var(--clr-primary-050) !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
+    color: var(--clr-gray-900) !important;
+    line-height: 1.5;
+}
+
+/* 首页标题样式 */
+h1.homeTitle {
+    color: var(--clr-primary-500) !important;
+    text-align: center;
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-4);
+    font-size: var(--text-3xl) !important;
+    font-weight: 700 !important;
+}
+
+/* 页面标题样式 */
+h1.pageTitle {
+    text-align: center !important;
+    color: var(--clr-primary-500) !important;
+    margin-top: var(--space-4);
+    margin-bottom: var(--space-3);
+    font-weight: 600 !important;
+    font-size: var(--text-2xl) !important;
+    border: none !important;
+    border-bottom: none !important;
+    border-top: none !important;
+}
+
+/* 隐藏标题中的放大镜图标 */
+.pageTitle .glyphicon-search,
+.pageTitle i.glyphicon-search,
+h1.pageTitle .glyphicon,
+h1.pageTitle i[class*="glyphicon"] {
+    display: none !important;
+}
+
+/* 确保actionBttn中的标题样式一致 */
+.bttn-minimal h1.pageTitle {
+    color: #2c3e50 !important;
+    text-decoration: none !important;
+    font-size: 2.2em !important;
+    border: none !important;
+    border-bottom: none !important;
+    border-top: none !important;
+}
+
+/* 修复actionBttn按钮样式，使其不影响标题显示 */
+.bttn-minimal {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    cursor: default !important;
+}
+
+.bttn-minimal:hover,
+.bttn-minimal:focus,
+.bttn-minimal:active {
+    background: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+/* 移除所有标题可能的边框和分隔线 */
+h1, h2, h3, h4, h5, h6 {
+    border: none !important;
+    border-bottom: none !important;
+    border-top: none !important;
+}
+
+/* 移除伪元素可能的装饰线 */
+h1::before, h1::after,
+h2::before, h2::after,
+h3::before, h3::after,
+h4::before, h4::after,
+h5::before, h5::after,
+h6::before, h6::after {
+    display: none !important;
+    content: none !important;
+    border: none !important;
+    background: none !important;
+}
+
+/* 特别针对页面标题容器 */
+.bttn-minimal h1,
+.bttn-minimal h2,
+.bttn-minimal h3,
+.bttn-minimal h4,
+.bttn-minimal h5,
+.bttn-minimal h6 {
+    border: none !important;
+    border-bottom: none !important;
+    border-top: none !important;
+}
+
+/* 移除页面标题的伪元素 */
+.pageTitle::before,
+.pageTitle::after,
+h1.pageTitle::before,
+h1.pageTitle::after,
+.bttn-minimal h1.pageTitle::before,
+.bttn-minimal h1.pageTitle::after {
+    display: none !important;
+    content: none !important;
+    border: none !important;
+    background: none !important;
+}
+
+/* 移除actionBttn可能的装饰线 */
+.bttn-minimal::before,
+.bttn-minimal::after {
+    display: none !important;
+    content: none !important;
+    border: none !important;
+    background: none !important;
+}
+
+/* 强制移除所有可能的蓝色分隔线 */
+* {
+    border-bottom-color: transparent !important;
+}
+
+/* 特别针对可能的框架样式 */
+.content-header,
+.content-header h1,
+.content-header .h1,
+.page-header,
+.page-header h1,
+.page-header .h1 {
+    border: none !important;
+    border-bottom: none !important;
+    border-top: none !important;
+}
+
+.content-header::before,
+.content-header::after,
+.page-header::before,
+.page-header::after {
+    display: none !important;
+    content: none !important;
+}
+
+/* 移除可能的hr元素样式 */
+hr {
+    display: none !important;
+    border: none !important;
+    background: none !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* 介绍文字样式 */
+.intro-text {
+    background-color: white;
+    padding: var(--space-6) var(--space-8);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    margin: var(--space-4) auto;
+    max-width: 1200px;
+    font-size: var(--text-base);
+    line-height: 1.8;
+    color: var(--clr-gray-700);
+    text-align: justify;
+}
+
+/* Slick轮播图容器样式 */
+.slick-slider {
+    background-color: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-4);
+    margin: var(--space-4) auto;
+    max-width: 1200px;
+}
+
+/* 轮播图片样式 */
+.slick-slide img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    margin: 0 auto;
+    border-radius: var(--radius-sm);
+}
+
+/* 轮播指示点样式 */
+.slick-dots {
+    bottom: var(--space-2);
+}
+
+.slick-dots li button:before {
+    color: var(--clr-primary-500);
+    opacity: 0.5;
+    font-size: var(--text-xs);
+}
+
+.slick-dots li.slick-active button:before {
+    opacity: 1;
+    color: var(--clr-primary-700);
+}
+
+/* 轮播箭头样式 */
+.slick-prev, .slick-next {
+    z-index: 1;
+}
+
+.slick-prev:before, .slick-next:before {
+    color: var(--clr-primary-500);
+    font-size: var(--text-2xl);
+}
+
+/* 统一字体系统 */
+p {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-size: var(--text-base);
+    line-height: 1.6;
+    color: var(--clr-gray-700);
+}
+
+div {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* 侧边栏样式调整 - 使用较浅的绿色背景 */
+.sidebar {
+    width: 280px !important;
+    background: var(--clr-primary-500) !important;
+}
+
+.main-sidebar {
+    width: 280px !important;
+    background: var(--clr-primary-500) !important;
+}
+
+.content-wrapper, .main-footer {
+    margin-left: 280px !important;
+    background: var(--clr-primary-050) !important;
+}
+
+/* 侧边栏标题 */
+.main-sidebar .sidebar-menu .header {
+    color: white !important;
+    background: transparent !important;
+    font-size: var(--text-xs) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    padding: var(--space-2) var(--space-3) !important;
+}
+
+/* 侧边栏菜单项样式 - 白色文本在浅绿色背景上 */
+.sidebar-menu > li > a {
+    color: white !important;
+    font-weight: 500 !important;
+    padding: var(--space-2) var(--space-3) !important;
+    transition: all var(--transition-base) !important;
+    border-left: 3px solid transparent !important;
+}
+
+.sidebar-menu > li > a:hover {
+    background: var(--clr-primary-300) !important;
+    color: white !important;
+    border-left-color: var(--clr-accent-coral) !important;
+    transform: translateX(2px) !important;
+}
+
+.sidebar-menu > li.active > a {
+    background: var(--clr-primary-300) !important;
+    color: white !important;
+    border-left-color: var(--clr-accent-coral) !important;
+    font-weight: 600 !important;
+}
+
+/* 侧边栏图标样式 */
+.sidebar-menu > li > a > i {
+    color: white !important;
+    margin-right: var(--space-2) !important;
+    width: 20px !important;
+    text-align: center !important;
+}
+
+.sidebar-menu > li:hover > a > i,
+.sidebar-menu > li.active > a > i {
+    color: white !important;
+}
+
+/* 侧边栏品牌区域 */
+.main-sidebar .brand-link {
+    background: var(--clr-primary-500) !important;
+    color: white !important;
+    border-bottom: 1px solid var(--clr-primary-300) !important;
+    padding: var(--space-3) !important;
+}
+
+.main-sidebar .brand-text {
+    color: white !important;
+    font-weight: 700 !important;
+    font-size: var(--text-lg) !important;
+}
+
+/* 侧边栏用户面板 */
+.main-sidebar .user-panel {
+    background: var(--clr-primary-500) !important;
+    border-bottom: 1px solid var(--clr-primary-300) !important;
+}
+
+.main-sidebar .user-panel .info {
+    color: white !important;
+}
+
+/* 主要内容区域 */
+.content-wrapper {
+    max-width: none !important;
+    padding: var(--space-4) !important;
+    padding-top: calc(var(--space-4) + 20px) !important;  /* 增加顶部内边距，防止图片被遮挡 */
+}
+
+/* 改善侧边栏滚动条 */
+.main-sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.main-sidebar::-webkit-scrollbar-track {
+    background: var(--clr-primary-500);
+}
+
+.main-sidebar::-webkit-scrollbar-thumb {
+    background: var(--clr-primary-300);
+    border-radius: 3px;
+}
+
+.main-sidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--clr-primary-700);
+}
+
+/* 侧边栏菜单项布局和文本样式 - 强制白色文本 */
+.sidebar-menu > li > a,
+.sidebar-menu li a,
+.main-sidebar .sidebar-menu > li > a,
+.main-sidebar .sidebar-menu li a {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: initial !important;
+    padding: var(--space-2) var(--space-1) var(--space-2) var(--space-3) !important;
+    color: white !important;
+    font-weight: 500 !important;
+    transition: all var(--transition-base) !important;
+    border-left: 3px solid transparent !important;
+}
+
+.sidebar-menu > li > a:hover,
+.sidebar-menu li a:hover,
+.main-sidebar .sidebar-menu > li > a:hover,
+.main-sidebar .sidebar-menu li a:hover {
+    background: var(--clr-primary-300) !important;
+    color: white !important;
+    border-left-color: var(--clr-accent-coral) !important;
+    transform: translateX(2px) !important;
+}
+
+.sidebar-menu > li.active > a,
+.sidebar-menu li.active a,
+.main-sidebar .sidebar-menu > li.active > a,
+.main-sidebar .sidebar-menu li.active a {
+    background: var(--clr-primary-300) !important;
+    color: white !important;
+    border-left-color: var(--clr-accent-coral) !important;
+    font-weight: 600 !important;
+}
+
+.sidebar-menu > li > a > span,
+.sidebar-menu li a span,
+.main-sidebar .sidebar-menu > li > a > span,
+.main-sidebar .sidebar-menu li a span {
+    display: inline-block !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: initial !important;
+    max-width: 220px !important;
+    line-height: 1.4 !important;
+    color: white !important;
+}
+
+/* 侧边栏图标样式 - 强制白色 */
+.sidebar-menu > li > a > i,
+.sidebar-menu li a i,
+.main-sidebar .sidebar-menu > li > a > i,
+.main-sidebar .sidebar-menu li a i {
+    margin-right: var(--space-2) !important;
+    width: 20px !important;
+    text-align: center !important;
+    color: white !important;
+}
+
+.sidebar-menu > li:hover > a > i,
+.sidebar-menu > li.active > a > i,
+.sidebar-menu li:hover a i,
+.sidebar-menu li.active a i,
+.main-sidebar .sidebar-menu > li:hover > a > i,
+.main-sidebar .sidebar-menu > li.active > a > i,
+.main-sidebar .sidebar-menu li:hover a i,
+.main-sidebar .sidebar-menu li.active a i {
+    color: white !important;
+}
+
+/* 确保所有侧边栏链接都有正确的颜色 */
+.main-sidebar a,
+.main-sidebar a:link,
+.main-sidebar a:visited {
+    color: white !important;
+}
+
+.main-sidebar a:hover,
+.main-sidebar a:focus,
+.main-sidebar a:active {
+    color: white !important;
+}
+
+/* 特殊处理：确保所有文本元素都有足够对比度 */
+.main-sidebar .sidebar-menu li a span,
+.main-sidebar .sidebar-menu li a .menu-text,
+.main-sidebar .sidebar-menu li a .text {
+    color: inherit !important;
+}
+
+/* 侧边栏标题和品牌区域 */
+.main-sidebar .brand-link .brand-text {
+    color: white !important;
+    font-weight: 700 !important;
+    text-shadow: none !important;
+}
+
+/* 确保浅绿色背景下的所有文本都可见 */
+.main-sidebar,
+.main-sidebar .sidebar {
+    color: white !important;
+}
+
+/* ==== AI聊天机器人样式 ==== */
+
+/* 浮动按钮 */
+.ai-chat-floating-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 9999;
+}
+
+.ai-chat-floating-btn {
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, var(--clr-primary-500), var(--clr-primary-700)) !important;
+    border: none !important;
+    box-shadow: var(--shadow-lg) !important;
+    color: white !important;
+    font-size: 24px !important;
+    transition: all var(--transition-base) !important;
+    cursor: pointer !important;
+}
+
+.ai-chat-floating-btn:hover {
+    transform: scale(1.1) !important;
+    box-shadow: 0 8px 32px rgba(28, 72, 76, 0.3) !important;
+    background: linear-gradient(135deg, var(--clr-primary-700), var(--clr-primary-900)) !important;
+}
+
+.ai-chat-notification {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--clr-accent-coral) !important;
+    color: white !important;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* 聊天窗口容器 */
+.ai-chat-container {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    width: 400px;
+    height: 600px;
+    z-index: 9998;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.ai-chat-container.minimized .ai-chat-content,
+.ai-chat-container.minimized .ai-chat-input-area {
+    display: none;
+}
+
+.ai-chat-container.minimized {
+    height: auto;
+}
+
+/* 聊天窗口 */
+.ai-chat-window {
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--clr-gray-200);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* 聊天头部 */
+.ai-chat-header {
+    background: linear-gradient(135deg, var(--clr-primary-500), var(--clr-primary-700));
+    color: white;
+    padding: var(--space-3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.ai-chat-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.ai-chat-icon {
+    font-size: var(--text-lg);
+}
+
+.ai-chat-title-text {
+    font-weight: 600;
+    font-size: var(--text-base);
+}
+
+.ai-chat-controls {
+    display: flex;
+    gap: var(--space-1);
+}
+
+.ai-chat-btn {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border: none !important;
+    color: white !important;
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 50% !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all var(--transition-fast) !important;
+}
+
+.ai-chat-btn:hover {
+    background: rgba(255, 255, 255, 0.3) !important;
+    transform: scale(1.1) !important;
+}
+
+/* 聊天内容区域 */
+.ai-chat-content {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 60px); /* 减去header高度 */
+}
+
+.ai-chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding-bottom: var(--space-4); /* 添加底部padding */
+}
+
+/* 消息样式 */
+.ai-message {
+    display: flex;
+    gap: var(--space-2);
+    max-width: 85%;
+}
+
+.ai-message-user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.ai-message-bot {
+    align-self: flex-start;
+}
+
+.ai-message-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.ai-message-user .ai-message-avatar {
+    background: var(--clr-primary-500);
+    color: white;
+}
+
+.ai-message-bot .ai-message-avatar {
+    background: var(--clr-gray-200);
+    color: var(--clr-gray-700);
+}
+
+.ai-message-content {
+    background: var(--clr-gray-050);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
+    line-height: 1.5;
+}
+
+.ai-message-user .ai-message-content {
+    background: var(--clr-primary-500);
+    color: white;
+}
+
+.ai-message-content p {
+    margin: 0;
+    font-size: var(--text-sm);
+}
+
+.ai-message-content p + p {
+    margin-top: var(--space-2);
+}
+
+.ai-message-image {
+    margin-bottom: var(--space-2);
+}
+
+.ai-message-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--clr-gray-200);
+}
+
+/* 聊天输入区域 */
+.ai-chat-input-area {
+    border-top: 1px solid var(--clr-gray-200);
+    padding: var(--space-3);
+    background: var(--clr-gray-050);
+}
+
+.ai-chat-input-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.ai-chat-input-container .form-group {
+    margin: 0;
+}
+
+.ai-chat-input-container textarea {
+    border: 1px solid var(--clr-gray-300) !important;
+    border-radius: var(--radius-sm) !important;
+    padding: var(--space-2) !important;
+    font-size: var(--text-sm) !important;
+    resize: none !important;
+    transition: border-color var(--transition-fast) !important;
+}
+
+.ai-chat-input-container textarea:focus {
+    border-color: var(--clr-primary-500) !important;
+    box-shadow: 0 0 0 2px rgba(28, 72, 76, 0.1) !important;
+    outline: none !important;
+}
+
+.ai-chat-send-btn {
+    background: var(--clr-primary-500) !important;
+    border: none !important;
+    color: white !important;
+    padding: var(--space-2) var(--space-3) !important;
+    border-radius: var(--radius-sm) !important;
+    font-size: var(--text-sm) !important;
+    transition: all var(--transition-fast) !important;
+    align-self: flex-end !important;
+}
+
+.ai-chat-send-btn:hover {
+    background: var(--clr-primary-700) !important;
+    transform: translateY(-1px) !important;
+}
+
+.ai-chat-send-btn:disabled {
+    background: var(--clr-gray-300) !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+}
+
+/* 加载指示器 */
+.ai-chat-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.95);
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    z-index: 10;
+}
+
+.ai-loading-spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid var(--clr-gray-200);
+    border-top: 3px solid var(--clr-primary-500);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 文件上传样式 */
+.ai-chat-input-container .form-group input[type="file"] {
+    display: none;
+}
+
+.ai-chat-input-container .form-group label {
+    background: var(--clr-gray-200) !important;
+    border: 1px solid var(--clr-gray-300) !important;
+    color: var(--clr-gray-700) !important;
+    padding: var(--space-2) !important;
+    border-radius: var(--radius-sm) !important;
+    cursor: pointer !important;
+    transition: all var(--transition-fast) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: var(--space-1) !important;
+    font-size: var(--text-sm) !important;
+    margin: 0 !important;
+}
+
+.ai-chat-input-container .form-group label:hover {
+    background: var(--clr-gray-300) !important;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .ai-chat-container {
+        width: calc(100vw - 20px);
+        right: 10px;
+        left: 10px;
+        height: 500px;
+    }
+
+    .ai-chat-floating-container {
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
+/* 修复可能的Bootstrap或其他框架冲突 - 强制覆盖所有可能的选择器 */
+.main-sidebar .nav > li > a,
+.main-sidebar .nav li a,
+.main-sidebar .sidebar-menu .treeview-menu > li > a,
+.main-sidebar .sidebar-menu .treeview-menu li a {
+    color: white !important;
+}
+
+.main-sidebar .nav > li > a:hover,
+.main-sidebar .nav > li > a:focus,
+.main-sidebar .nav li a:hover,
+.main-sidebar .nav li a:focus,
+.main-sidebar .sidebar-menu .treeview-menu > li > a:hover,
+.main-sidebar .sidebar-menu .treeview-menu li a:hover {
+    background: var(--clr-primary-300) !important;
+    color: white !important;
+}
+
+/* 强制覆盖所有可能的文本颜色 */
+.main-sidebar *,
+.main-sidebar .sidebar *,
+.main-sidebar .sidebar-menu *,
+.main-sidebar .sidebar-menu li *,
+.main-sidebar .sidebar-menu li a *,
+.sidebar *,
+.sidebar-menu *,
+.sidebar-menu li *,
+.sidebar-menu li a * {
+    color: white !important;
+}
+
+/* 确保链接状态的颜色 */
+.main-sidebar a:link,
+.main-sidebar a:visited,
+.main-sidebar a:hover,
+.main-sidebar a:active,
+.sidebar a:link,
+.sidebar a:visited,
+.sidebar a:hover,
+.sidebar a:active {
+    color: white !important;
+    text-decoration: none !important;
+}
+
+/* 响应式调整 */
+@media (max-width: 767px) {
+    .sidebar {
+        width: 250px !important;
+    }
+    
+    .main-sidebar {
+        width: 250px !important;
+    }
+    
+    .content-wrapper, .main-footer {
+        margin-left: 0 !important;
+    }
+}
+
+/* 按钮样式 - 与主网站一致 */
+.btn-primary {
+    background: var(--clr-primary-500) !important;
+    border-color: var(--clr-primary-500) !important;
+    color: white !important;
+    border-radius: var(--radius-sm) !important;
+    padding: var(--space-2) var(--space-4) !important;
+    font-weight: 600 !important;
+    transition: all var(--transition-base) !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background: var(--clr-primary-700) !important;
+    border-color: var(--clr-primary-700) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+.btn-outline-primary {
+    background: transparent !important;
+    border-color: var(--clr-primary-500) !important;
+    color: var(--clr-primary-500) !important;
+    border-radius: var(--radius-sm) !important;
+    padding: var(--space-2) var(--space-3) !important;
+    font-weight: 500 !important;
+    transition: all var(--transition-base) !important;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+    background: var(--clr-primary-050) !important;
+    border-color: var(--clr-primary-700) !important;
+    color: var(--clr-primary-700) !important;
+}
+
+/* 输入框样式 */
+.form-control {
+    border: 2px solid var(--clr-primary-100) !important;
+    border-radius: var(--radius-sm) !important;
+    padding: var(--space-2) var(--space-3) !important;
+    font-size: var(--text-base) !important;
+    transition: all var(--transition-base) !important;
+}
+
+.form-control:focus {
+    border-color: var(--clr-primary-500) !important;
+    box-shadow: 0 0 0 0.2rem rgba(28, 72, 76, 0.25) !important;
+}
+
+/* 图表容器样式 */
+.shiny-plot-output {
+    display: block;
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+/* 图表滚动容器 */
+div[style*="overflow:auto"] {
+    background-color: white;
+    padding: var(--space-3);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--clr-gray-200);
+}
+
+/* 确保图表不被拉伸 */
+.shiny-plot-output img {
+    max-width: none !important;
+    height: auto !important;
+}
+
+/* Tab内容区域 */
+.tab-content {
+    padding-top: var(--space-4);
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    margin-top: var(--space-4);
+}
+
+/* 数据表样式 */
+.dataTables_wrapper {
+    background: white !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: var(--shadow-md) !important;
+    padding: var(--space-4) !important;
+    margin-top: var(--space-4) !important;
+}
+
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter,
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_paginate {
+    color: var(--clr-gray-700) !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    color: var(--clr-primary-500) !important;
+    border: 1px solid var(--clr-primary-100) !important;
+    border-radius: var(--radius-sm) !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: var(--clr-primary-050) !important;
+    border-color: var(--clr-primary-300) !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: var(--clr-primary-500) !important;
+    border-color: var(--clr-primary-500) !important;
+    color: white !important;
+}
+
+/* 卡片样式 */
+.box {
+    background: white !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: var(--shadow-md) !important;
+    border: none !important;
+    margin-bottom: var(--space-4) !important;
+}
+
+.box-header {
+    background: var(--clr-primary-050) !important;
+    border-bottom: 1px solid var(--clr-primary-100) !important;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0 !important;
+    padding: var(--space-3) var(--space-4) !important;
+}
+
+.box-header .box-title {
+    color: var(--clr-primary-700) !important;
+    font-weight: 600 !important;
+    font-size: var(--text-lg) !important;
+}
+
+.box-body {
+    padding: var(--space-4) !important;
+}
+
+/* 覆盖AdminLTE的box状态颜色 - 使用非常浅的绿色主题 */
+.box.box-primary .box-header,
+.box.box-info .box-header,
+.box.box-success .box-header {
+    background-color: var(--clr-primary-050) !important;
+    color: var(--clr-primary-700) !important;
+    border-bottom: 1px solid var(--clr-gray-200) !important;
+}
+
+.box.box-primary .box-header .box-title,
+.box.box-info .box-header .box-title,
+.box.box-success .box-header .box-title {
+    color: var(--clr-primary-700) !important;
+    font-weight: 600 !important;
+}
+
+.box.box-primary,
+.box.box-info,
+.box.box-success {
+    border-top: 2px solid var(--clr-primary-300) !important;
+}
+
+/* 最强的选择器来覆盖AdminLTE默认样式 - 直接针对所有可能的box */
+.box-header,
+.box.box-success .box-header,
+.box.box-primary .box-header,
+.box.box-info .box-header,
+.content-wrapper .box.box-success .box-header,
+.content-wrapper .box.box-primary .box-header,
+.content-wrapper .box.box-info .box-header,
+div.box.box-success .box-header,
+div.box.box-primary .box-header,
+div.box.box-info .box-header,
+.box-success > .box-header,
+.box-primary > .box-header,
+.box-info > .box-header {
+    background-color: white !important;
+    background: white !important;
+    color: var(--clr-primary-700) !important;
+    border-bottom: 1px solid var(--clr-gray-200) !important;
+}
+
+/* 确保标题文字颜色 */
+.box-header .box-title,
+.box.box-success .box-header .box-title,
+.box.box-primary .box-header .box-title,
+.box.box-info .box-header .box-title,
+.content-wrapper .box.box-success .box-header .box-title,
+.content-wrapper .box.box-primary .box-header .box-title,
+.content-wrapper .box.box-info .box-header .box-title,
+div.box.box-success .box-header .box-title,
+div.box.box-primary .box-header .box-title,
+div.box.box-info .box-header .box-title {
+    color: var(--clr-primary-700) !important;
+    font-weight: 600 !important;
+}
+
+/* 模块标题悬停提示样式 */
+.module-title-with-tooltip {
+    position: relative;
+    transition: all var(--transition-base) !important;
+    cursor: help !important;
+}
+
+.module-title-with-tooltip:hover {
+    color: var(--clr-primary-700) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* 纯CSS tooltip实现 */
+.module-title-with-tooltip::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--clr-primary-700);
+    color: white;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    line-height: 1.4;
+    white-space: normal;
+    max-width: 400px;
+    width: max-content;
+    z-index: 1000;
+    box-shadow: var(--shadow-lg);
+    font-weight: 400;
+    text-align: left;
+    word-wrap: break-word;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    pointer-events: none;
+}
+
+/* 添加小箭头 */
+.module-title-with-tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--clr-primary-700);
+    z-index: 1001;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+/* 悬停时显示tooltip */
+.module-title-with-tooltip:hover::before,
+.module-title-with-tooltip:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* 模块描述文字样式 */
+.module-description {
+    background-color: rgba(28, 72, 76, 0.05) !important;
+    border-left: 3px solid var(--clr-primary-500) !important;
+    padding: var(--space-3) var(--space-4) !important;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0 !important;
+    margin: var(--space-3) auto var(--space-4) auto !important;
+    font-style: italic !important;
+    color: var(--clr-gray-700) !important;
+    font-size: var(--text-sm) !important;
+    line-height: 1.6 !important;
+    max-width: 700px !important;
+}
+
+/* 图表容器响应式调整 */
+@media (max-width: 1200px) {
+    .shiny-plot-output {
+        min-height: 1000px !important;
+    }
+
+    .content-wrapper {
+        padding: var(--space-3) !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .shiny-plot-output {
+        min-height: 900px !important;
+    }
+
+    .sidebar {
+        width: 250px !important;
+    }
+
+    .main-sidebar {
+        width: 250px !important;
+    }
+
+    .content-wrapper, .main-footer {
+        margin-left: 0 !important;
+    }
+
+    .intro-text {
+        padding: var(--space-4) var(--space-3) !important;
+    }
+}
+
+/* ==== 图片缩放样式 - 应用Ctrl+-效果 ==== */
+
+/* 图片容器样式 - 应用缩放效果 */
+.plot-container {
+  width: 85% !important;
+  max-width: 1100px !important;
+  min-height: 800px !important;
+  max-height: 1400px !important;
+  margin: 20px auto !important;
+  padding: 40px 20px !important;  /* 增加上下内边距，防止图片被裁剪 */
+  border: 2px solid #e0e0e0 !important;
+  border-radius: 8px !important;
+  background-color: #f9f9f9 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: visible !important;  /* 改为visible，防止图片被裁剪 */
+}
+
+/* 图片缩放样式 - 真正的等比缩放 */
+.plot-container img {
+  transform: scale(0.9) !important;  /* 稍微减少缩放比例，给图片更多空间 */
+  transform-origin: center center !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 10px !important;  /* 增加图片边距，确保不被裁剪 */
+}
+
+/* 动态高度的图表容器 */
+.shiny-plot-output.dynamic-height {
+  min-height: auto !important;
+  height: auto !important;
+}
+
+/* 基因表达分析图表特殊样式 - 紧凑水平布局 */
+.gene-expression-plot {
+  min-height: 400px !important;
+}
+
+.gene-expression-plot .plot-container {
+  min-height: 300px !important;
+  max-height: 500px !important;
+}
