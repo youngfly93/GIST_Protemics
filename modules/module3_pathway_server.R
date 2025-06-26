@@ -611,7 +611,7 @@ module3_pathway_server <- function(id) {
         if (!is.null(gsea_tables[[db]])) {
           df <- gsea_tables[[db]] %>%
             mutate(Database = gsub("GSEA_", "", db)) %>%
-            select(Database, pathway, ES, NES, pval, padj, size)
+            dplyr::select(Database, pathway, ES, NES, pval, padj, size)
           all_gsea[[db]] <- df
         }
       }
@@ -697,7 +697,7 @@ prepare_enrichment_tables <- function(enrichment_results) {
     if (!is.null(enrichment_results[[group]]$go) && 
         nrow(enrichment_results[[group]]$go@result) > 0) {
       tables[[group]]$go <- enrichment_results[[group]]$go@result %>%
-        select(Description, GeneRatio, BgRatio, pvalue, p.adjust, qvalue, Count) %>%
+        dplyr::select(Description, GeneRatio, BgRatio, pvalue, p.adjust, qvalue, Count) %>%
         mutate(
           pvalue = signif(pvalue, 3),
           p.adjust = signif(p.adjust, 3),
@@ -709,7 +709,7 @@ prepare_enrichment_tables <- function(enrichment_results) {
     if (!is.null(enrichment_results[[group]]$kegg) && 
         nrow(enrichment_results[[group]]$kegg@result) > 0) {
       tables[[group]]$kegg <- enrichment_results[[group]]$kegg@result %>%
-        select(Description, GeneRatio, BgRatio, pvalue, p.adjust, qvalue, Count) %>%
+        dplyr::select(Description, GeneRatio, BgRatio, pvalue, p.adjust, qvalue, Count) %>%
         mutate(
           pvalue = signif(pvalue, 3),
           p.adjust = signif(p.adjust, 3),
@@ -721,7 +721,7 @@ prepare_enrichment_tables <- function(enrichment_results) {
     if (!is.null(enrichment_results[[group]]$reactome) && 
         nrow(enrichment_results[[group]]$reactome@result) > 0) {
       tables[[group]]$reactome <- enrichment_results[[group]]$reactome@result %>%
-        select(Description, GeneRatio, BgRatio, pvalue, p.adjust, qvalue, Count) %>%
+        dplyr::select(Description, GeneRatio, BgRatio, pvalue, p.adjust, qvalue, Count) %>%
         mutate(
           pvalue = signif(pvalue, 3),
           p.adjust = signif(p.adjust, 3),
@@ -747,7 +747,7 @@ prepare_gsea_tables <- function(gsea_results) {
           pval = signif(pval, 3),
           padj = signif(padj, 3)
         ) %>%
-        select(pathway, ES, NES, pval, padj, size, leading_edge)
+        dplyr::select(pathway, ES, NES, pval, padj, size, leading_edge)
     }
   }
   
