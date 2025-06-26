@@ -602,9 +602,11 @@ plot_gsea_enrichment <- function(gsea_result, gene_list, pathway_name, gene_set)
 
 # 创建GSEA结果汇总图
 plot_gsea_ridge <- function(gsea_results, top_n = 20, title = "GSEA-KEGG Analysis", pvalue_cutoff = 0.05) {
-  library(ggplot2)
-  library(dplyr)
-  library(ggridges)
+  suppressPackageStartupMessages({
+    library(ggplot2)
+    library(dplyr)
+    library(ggridges)
+  })
   
   if (is.null(gsea_results) || nrow(gsea_results$results) == 0) {
     return(NULL)
@@ -612,8 +614,8 @@ plot_gsea_ridge <- function(gsea_results, top_n = 20, title = "GSEA-KEGG Analysi
   
   # 选择显著的top结果
   top_results <- gsea_results$results %>%
-    filter(padj < pvalue_cutoff) %>%
-    arrange(desc(abs(NES))) %>%
+    dplyr::filter(padj < pvalue_cutoff) %>%
+    dplyr::arrange(desc(abs(NES))) %>%
     head(top_n)
   
   if (nrow(top_results) == 0) {
@@ -808,8 +810,10 @@ dbGIST_Proteomics_GSEA <- function(Dataset = "Sun's Study",
 
 # 富集分析函数（改编自enrich_func.R）
 enrichment_Multi <- function(proteins_data, OrgDb = "org.Hs.eg.db", orgKegg = "hsa", organismReactome = "human", pvalue_cutoff = 0.05) {
-  library(clusterProfiler)
-  library(ReactomePA)
+  suppressPackageStartupMessages({
+    library(clusterProfiler)
+    library(ReactomePA)
+  })
   
   # 加载对应的OrgDb
   if (is.character(OrgDb)) {
@@ -822,10 +826,10 @@ enrichment_Multi <- function(proteins_data, OrgDb = "org.Hs.eg.db", orgKegg = "h
   gene <- unique(proteins_data)
   
   ID_trans <- function(enrich_result, from, to = "SYMBOL", OrgDb) {
-    library(clusterProfiler)
+    suppressPackageStartupMessages(library(clusterProfiler))
     trans_result <- apply(enrich_result, 1, from = from, to = to, OrgDb2 = OrgDb, function(x, from, to, OrgDb2) {
       genelist <- unlist(strsplit(x["geneID"], split = '/'))
-      genelist <- try(bitr(genelist, fromType = from, toType = to, OrgDb = OrgDb2), silent = TRUE)
+      genelist <- try(clusterProfiler::bitr(genelist, fromType = from, toType = to, OrgDb = OrgDb2), silent = TRUE)
       if ('try-error' %in% class(genelist)) {
         return("")
       } else {
@@ -839,26 +843,26 @@ enrichment_Multi <- function(proteins_data, OrgDb = "org.Hs.eg.db", orgKegg = "h
   
   # GO富集分析
   GO_results <- tryCatch({
-    res <- enrichGO(gene = gene, OrgDb = OrgDb, keyType = "SYMBOL", ont = "ALL", pvalueCutoff = pvalue_cutoff)
+    res <- clusterProfiler::enrichGO(gene = gene, OrgDb = OrgDb, keyType = "SYMBOL", ont = "ALL", pvalueCutoff = pvalue_cutoff)
     res
   }, error = function(e) {
     # 如果SYMBOL失败，尝试其他keyType
     tryCatch({
-      enrichGO(gene = gene, OrgDb = OrgDb, keyType = "UNIPROT", ont = "ALL", pvalueCutoff = pvalue_cutoff)
+      clusterProfiler::enrichGO(gene = gene, OrgDb = OrgDb, keyType = "UNIPROT", ont = "ALL", pvalueCutoff = pvalue_cutoff)
     }, error = function(e2) NULL)
   })
   
   # KEGG富集分析
   KEGG_results <- tryCatch({
     # 先尝试转换为ENTREZID
-    entrez_ids <- bitr(gene, fromType = "SYMBOL", toType = "ENTREZID", OrgDb = OrgDb)
-    enrichKEGG(gene = entrez_ids$ENTREZID, organism = orgKegg, pvalueCutoff = pvalue_cutoff)
+    entrez_ids <- clusterProfiler::bitr(gene, fromType = "SYMBOL", toType = "ENTREZID", OrgDb = OrgDb)
+    clusterProfiler::enrichKEGG(gene = entrez_ids$ENTREZID, organism = orgKegg, pvalueCutoff = pvalue_cutoff)
   }, error = function(e) NULL)
   
   # Reactome富集分析
   Reactome_results <- tryCatch({
-    entrez_ids <- bitr(gene, fromType = "SYMBOL", toType = "ENTREZID", OrgDb = OrgDb)
-    enrichPathway(gene = entrez_ids$ENTREZID, organism = organismReactome, pvalueCutoff = pvalue_cutoff)
+    entrez_ids <- clusterProfiler::bitr(gene, fromType = "SYMBOL", toType = "ENTREZID", OrgDb = OrgDb)
+    ReactomePA::enrichPathway(gene = entrez_ids$ENTREZID, organism = organismReactome, pvalueCutoff = pvalue_cutoff)
   }, error = function(e) NULL)
   
   enrichment_list <- list()
