@@ -601,7 +601,7 @@ plot_gsea_enrichment <- function(gsea_result, gene_list, pathway_name, gene_set)
 }
 
 # 创建GSEA结果汇总图
-plot_gsea_ridge <- function(gsea_results, top_n = 20, title = "GSEA-KEGG Analysis") {
+plot_gsea_ridge <- function(gsea_results, top_n = 20, title = "GSEA-KEGG Analysis", pvalue_cutoff = 0.05) {
   library(ggplot2)
   library(dplyr)
   library(ggridges)
@@ -612,7 +612,7 @@ plot_gsea_ridge <- function(gsea_results, top_n = 20, title = "GSEA-KEGG Analysi
   
   # 选择显著的top结果
   top_results <- gsea_results$results %>%
-    filter(padj < 0.05) %>%
+    filter(padj < pvalue_cutoff) %>%
     arrange(desc(abs(NES))) %>%
     head(top_n)
   
@@ -728,6 +728,7 @@ dbGIST_Proteomics_GSEA <- function(Dataset = "Sun's Study",
                                    nperm = 1000,
                                    min_size = 15,
                                    max_size = 500,
+                                   pvalue_cutoff = 0.05,
                                    plot_top = 10) {
   
   cat(paste("Step 1: Getting ranked gene list for", ID, "...\n"))
@@ -767,10 +768,11 @@ dbGIST_Proteomics_GSEA <- function(Dataset = "Sun's Study",
     # 生成汇总图
     database_name <- gsub("\\.gmt$", "", basename(gmt_file))
     summary_plot <- plot_gsea_ridge(gsea_results, top_n = plot_top, 
-                                    title = paste("GSEA Results:", database_name, "for", ID))
+                                    title = paste("GSEA Results:", database_name, "for", ID),
+                                    pvalue_cutoff = pvalue_cutoff)
     
     # 为显著结果生成详细图
-    significant_results <- gsea_results$results[gsea_results$results$padj < 0.05, ]
+    significant_results <- gsea_results$results[gsea_results$results$padj < pvalue_cutoff, ]
     detailed_plots <- list()
     
     if (nrow(significant_results) > 0) {
@@ -805,7 +807,7 @@ dbGIST_Proteomics_GSEA <- function(Dataset = "Sun's Study",
 }
 
 # 富集分析函数（改编自enrich_func.R）
-enrichment_Multi <- function(proteins_data, OrgDb = "org.Hs.eg.db", orgKegg = "hsa", organismReactome = "human") {
+enrichment_Multi <- function(proteins_data, OrgDb = "org.Hs.eg.db", orgKegg = "hsa", organismReactome = "human", pvalue_cutoff = 0.05) {
   library(clusterProfiler)
   library(ReactomePA)
   
@@ -837,12 +839,12 @@ enrichment_Multi <- function(proteins_data, OrgDb = "org.Hs.eg.db", orgKegg = "h
   
   # GO富集分析
   GO_results <- tryCatch({
-    res <- enrichGO(gene = gene, OrgDb = OrgDb, keyType = "SYMBOL", ont = "ALL", pvalueCutoff = 0.05)
+    res <- enrichGO(gene = gene, OrgDb = OrgDb, keyType = "SYMBOL", ont = "ALL", pvalueCutoff = pvalue_cutoff)
     res
   }, error = function(e) {
     # 如果SYMBOL失败，尝试其他keyType
     tryCatch({
-      enrichGO(gene = gene, OrgDb = OrgDb, keyType = "UNIPROT", ont = "ALL", pvalueCutoff = 0.05)
+      enrichGO(gene = gene, OrgDb = OrgDb, keyType = "UNIPROT", ont = "ALL", pvalueCutoff = pvalue_cutoff)
     }, error = function(e2) NULL)
   })
   
@@ -850,13 +852,13 @@ enrichment_Multi <- function(proteins_data, OrgDb = "org.Hs.eg.db", orgKegg = "h
   KEGG_results <- tryCatch({
     # 先尝试转换为ENTREZID
     entrez_ids <- bitr(gene, fromType = "SYMBOL", toType = "ENTREZID", OrgDb = OrgDb)
-    enrichKEGG(gene = entrez_ids$ENTREZID, organism = orgKegg, pvalueCutoff = 0.05)
+    enrichKEGG(gene = entrez_ids$ENTREZID, organism = orgKegg, pvalueCutoff = pvalue_cutoff)
   }, error = function(e) NULL)
   
   # Reactome富集分析
   Reactome_results <- tryCatch({
     entrez_ids <- bitr(gene, fromType = "SYMBOL", toType = "ENTREZID", OrgDb = OrgDb)
-    enrichPathway(gene = entrez_ids$ENTREZID, organism = organismReactome, pvalueCutoff = 0.05)
+    enrichPathway(gene = entrez_ids$ENTREZID, organism = organismReactome, pvalueCutoff = pvalue_cutoff)
   }, error = function(e) NULL)
   
   enrichment_list <- list()
@@ -877,6 +879,8 @@ dbGIST_Proteomics_Pathway_Enrichment <- function(Dataset = "Sun's Study",
                                                  gsea_nperm = 1000,
                                                  gsea_min_size = 15,
                                                  gsea_max_size = 500,
+                                                 enrichment_pvalue_cutoff = 0.05,
+                                                 gsea_pvalue_cutoff = 0.05,
                                                  plot_results = TRUE,
                                                  OrgDb = "org.Hs.eg.db",
                                                  orgKegg = "hsa",
@@ -917,7 +921,8 @@ dbGIST_Proteomics_Pathway_Enrichment <- function(Dataset = "Sun's Study",
         pathway_result$positive, 
         OrgDb = OrgDb, 
         orgKegg = orgKegg, 
-        organismReactome = organismReactome
+        organismReactome = organismReactome,
+        pvalue_cutoff = enrichment_pvalue_cutoff
       )
     }
     
@@ -928,7 +933,8 @@ dbGIST_Proteomics_Pathway_Enrichment <- function(Dataset = "Sun's Study",
         pathway_result$negative, 
         OrgDb = OrgDb, 
         orgKegg = orgKegg, 
-        organismReactome = organismReactome
+        organismReactome = organismReactome,
+        pvalue_cutoff = enrichment_pvalue_cutoff
       )
     }
     
@@ -939,7 +945,8 @@ dbGIST_Proteomics_Pathway_Enrichment <- function(Dataset = "Sun's Study",
         pathway_result$all, 
         OrgDb = OrgDb, 
         orgKegg = orgKegg, 
-        organismReactome = organismReactome
+        organismReactome = organismReactome,
+        pvalue_cutoff = enrichment_pvalue_cutoff
       )
     }
     
@@ -965,6 +972,7 @@ dbGIST_Proteomics_Pathway_Enrichment <- function(Dataset = "Sun's Study",
         nperm = gsea_nperm,
         min_size = gsea_min_size,
         max_size = gsea_max_size,
+        pvalue_cutoff = gsea_pvalue_cutoff,
         plot_top = 10
       )
       

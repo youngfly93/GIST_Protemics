@@ -87,6 +87,16 @@ module3_pathway_ui <- function(id) {
                 "Rat" = "rat"
               ),
               selected = "human"
+            ),
+            
+            # p值阈值设置
+            numericInput(
+              ns("enrichment_pvalue_cutoff"),
+              "P-value Cutoff:",
+              value = 0.05,
+              min = 0.001,
+              max = 0.1,
+              step = 0.005
             )
           ),
           
@@ -141,6 +151,16 @@ module3_pathway_ui <- function(id) {
               min = 100,
               max = 2000,
               step = 50
+            ),
+            
+            # GSEA p值阈值设置
+            numericInput(
+              ns("gsea_pvalue_cutoff"),
+              "GSEA P-value Cutoff:",
+              value = 0.05,
+              min = 0.001,
+              max = 0.2,
+              step = 0.01
             )
           ),
           

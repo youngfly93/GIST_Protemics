@@ -68,6 +68,8 @@ module3_pathway_server <- function(id) {
               gsea_nperm = if (input$perform_gsea) input$gsea_nperm else 1000,
               gsea_min_size = if (input$perform_gsea) input$gsea_min_size else 15,
               gsea_max_size = if (input$perform_gsea) input$gsea_max_size else 500,
+              enrichment_pvalue_cutoff = if (input$perform_enrichment) input$enrichment_pvalue_cutoff else 0.05,
+              gsea_pvalue_cutoff = if (input$perform_gsea) input$gsea_pvalue_cutoff else 0.05,
               plot_results = input$generate_plots,
               OrgDb = species_params$OrgDb,
               orgKegg = species_params$orgKegg,
