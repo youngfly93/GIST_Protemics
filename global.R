@@ -57,6 +57,7 @@ library(readr)
 library(ggpubr)
 library(eoffice)
 library(Rcpp)
+library(ggridges)  # For ridge plots in GSEA analysis
 library(clusterProfiler)
 library(tidyverse)
 library(org.Hs.eg.db)

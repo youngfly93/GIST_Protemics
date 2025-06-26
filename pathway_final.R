@@ -601,15 +601,16 @@ plot_gsea_enrichment <- function(gsea_result, gene_list, pathway_name, gene_set)
 }
 
 # 创建GSEA结果汇总图
-plot_gsea_summary <- function(gsea_results, top_n = 20, title = "GSEA Results") {
+plot_gsea_ridge <- function(gsea_results, top_n = 20, title = "GSEA-KEGG Analysis") {
   library(ggplot2)
   library(dplyr)
+  library(ggridges)
   
   if (is.null(gsea_results) || nrow(gsea_results$results) == 0) {
     return(NULL)
   }
   
-  # 选择top结果
+  # 选择显著的top结果
   top_results <- gsea_results$results %>%
     filter(padj < 0.05) %>%
     arrange(desc(abs(NES))) %>%
@@ -619,35 +620,79 @@ plot_gsea_summary <- function(gsea_results, top_n = 20, title = "GSEA Results") 
     return(NULL)
   }
   
-  # 清理pathway名称（去掉前缀）
-  top_results$pathway_clean <- gsub("^HALLMARK_|^KEGG_", "", top_results$pathway)
+  # 清理pathway名称
+  top_results$pathway_clean <- gsub("^HALLMARK_|^KEGG_|^KEGG_MEDICUS_", "", top_results$pathway)
   top_results$pathway_clean <- gsub("_", " ", top_results$pathway_clean)
+  top_results$pathway_clean <- tools::toTitleCase(tolower(top_results$pathway_clean))
   
-  # 按NES排序
-  top_results$pathway_clean <- factor(top_results$pathway_clean, 
-                                     levels = top_results$pathway_clean[order(top_results$NES)])
+  # 准备ridge plot数据
+  ridge_data <- data.frame()
   
-  # 添加显著性标记
-  top_results$significance <- ifelse(top_results$padj < 0.001, "***", 
-                                   ifelse(top_results$padj < 0.01, "**", 
-                                        ifelse(top_results$padj < 0.05, "*", "")))
+  for (i in 1:nrow(top_results)) {
+    pathway_name <- top_results$pathway[i]
+    pathway_clean <- top_results$pathway_clean[i]
+    
+    # 获取该通路的enrichment score分布
+    if (pathway_name %in% names(gsea_results$detailed_results)) {
+      detailed_result <- gsea_results$detailed_results[[pathway_name]]
+      
+      # 获取running enrichment score
+      running_es <- detailed_result$enrichment_score
+      n_points <- length(running_es)
+      
+      # 创建标准化的x轴位置 (-1 到 1)
+      x_positions <- seq(-1, 1, length.out = n_points)
+      
+      # 为ridge plot准备数据
+      temp_data <- data.frame(
+        pathway = rep(pathway_clean, n_points),
+        x = x_positions,
+        enrichment_score = running_es,
+        padj = rep(top_results$padj[i], n_points),
+        NES = rep(top_results$NES[i], n_points)
+      )
+      
+      ridge_data <- rbind(ridge_data, temp_data)
+    }
+  }
   
-  # 创建图形
-  p <- ggplot(top_results, aes(x = pathway_clean, y = NES, fill = NES > 0)) +
-    geom_col(alpha = 0.8) +
-    geom_text(aes(label = significance, y = NES + sign(NES) * 0.1), 
-              hjust = 0.5, size = 4) +
-    scale_fill_manual(values = c("TRUE" = "#E31A1C", "FALSE" = "#1F78B4"),
-                      name = "Direction", labels = c("Negative", "Positive")) +
-    coord_flip() +
+  if (nrow(ridge_data) == 0) {
+    return(NULL)
+  }
+  
+  # 按NES排序pathway (从负到正)
+  pathway_order <- top_results$pathway_clean[order(top_results$NES)]
+  ridge_data$pathway <- factor(ridge_data$pathway, levels = pathway_order)
+  
+  # 添加显著性和颜色信息
+  ridge_data$significance <- ifelse(ridge_data$padj < 0.001, "***", 
+                                  ifelse(ridge_data$padj < 0.01, "**", 
+                                       ifelse(ridge_data$padj < 0.05, "*", "")))
+  
+  ridge_data$enrichment_direction <- ifelse(ridge_data$NES > 0, "Positive", "Negative")
+  
+  # 创建ridge plot
+  p <- ggplot(ridge_data, aes(x = x, y = pathway)) +
+    geom_density_ridges(aes(fill = enrichment_direction), 
+                       alpha = 0.7, scale = 0.8, rel_min_height = 0.01) +
+    scale_fill_manual(values = c("Positive" = "#74D055FF", "Negative" = "#440154FF"), 
+                      name = "Enrichment Direction") +
+    scale_x_continuous(limits = c(-1, 1), 
+                       breaks = c(-0.5, 0, 0.5),
+                       labels = c("-0.5", "0.0", "0.5")) +
     labs(title = title,
-         x = "Pathway",
-         y = "Normalized Enrichment Score (NES)",
-         caption = "* p<0.05, ** p<0.01, *** p<0.001") +
+         x = "Enrichment Score",
+         y = "",
+         caption = "Ridge plots show enrichment score distributions for each pathway") +
     theme_minimal() +
-    theme(plot.title = element_text(size = 14, face = "bold"),
-          axis.text.y = element_text(size = 10),
-          legend.position = "bottom")
+    theme(
+      plot.title = element_text(size = 14, face = "bold", hjust = 0.5),
+      axis.text.y = element_text(size = 10),
+      axis.text.x = element_text(size = 10),
+      legend.position = "right",
+      panel.grid.minor = element_blank(),
+      panel.grid.major.y = element_blank()
+    )
   
   return(p)
 }
@@ -721,7 +766,7 @@ dbGIST_Proteomics_GSEA <- function(Dataset = "Sun's Study",
     
     # 生成汇总图
     database_name <- gsub("\\.gmt$", "", basename(gmt_file))
-    summary_plot <- plot_gsea_summary(gsea_results, top_n = plot_top, 
+    summary_plot <- plot_gsea_ridge(gsea_results, top_n = plot_top, 
                                     title = paste("GSEA Results:", database_name, "for", ID))
     
     # 为显著结果生成详细图

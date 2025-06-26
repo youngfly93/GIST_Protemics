@@ -174,49 +174,6 @@ module3_pathway_ui <- function(id) {
       # 结果面板
       column(
         width = 8,
-        # 相关基因结果
-        bs4Card(
-          title = "Correlated Proteins",
-          status = "success",
-          solidHeader = TRUE,
-          collapsible = TRUE,
-          width = 12,
-          
-          tabsetPanel(
-            tabPanel(
-              "Summary",
-              br(),
-              fluidRow(
-                column(6,
-                  infoBoxOutput(ns("n_positive_box"), width = 12)
-                ),
-                column(6,
-                  infoBoxOutput(ns("n_negative_box"), width = 12)
-                )
-              ),
-              br(),
-              plotOutput(ns("correlation_plot"), height = "400px")
-            ),
-            
-            tabPanel(
-              "Positive Correlated",
-              br(),
-              DT::dataTableOutput(ns("positive_table"))
-            ),
-            
-            tabPanel(
-              "Negative Correlated",
-              br(),
-              DT::dataTableOutput(ns("negative_table"))
-            ),
-            
-            tabPanel(
-              "All Proteins",
-              br(),
-              DT::dataTableOutput(ns("all_proteins_table"))
-            )
-          )
-        ),
         
         # 富集分析结果
         conditionalPanel(

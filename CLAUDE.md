@@ -19,6 +19,9 @@ Rscript start_ai.R
 # Non-AI version (port 4967)
 Rscript start_no_ai.R
 
+# Shell script launcher (cross-platform)
+./start_proteomics.sh
+
 # Direct R console startup
 shiny::runApp(port = 4965)
 ```
@@ -48,14 +51,26 @@ The application uses a modular R Shiny architecture with three main analysis mod
    - Analyzes correlation between two proteins
    - Generates scatter plots with linear regression
 
-3. **Drug Resistance Analysis** (`modules/module4_*`): 
+3. **Pathway Enrichment Analysis** (`modules/module3_*`): 
+   - KEGG and Hallmark pathway enrichment analysis
+   - Gene set enrichment analysis (GSEA)
+   - Interactive pathway visualization
+
+4. **Drug Resistance Analysis** (`modules/module4_*`): 
    - Imatinib resistance prediction using protein expression
    - ROC curve analysis and biomarker evaluation
+
+5. **Survival Analysis** (`modules/module5_*`): 
+   - Kaplan-Meier survival curves
+   - Cox regression analysis
+   - Protein expression impact on survival outcomes
 
 ### Data Architecture
 - **Main data file**: `Protemics_list.rds` - Contains proteomics expression matrices
 - **Pathway data**: `Proteomics_ID_Pathway_list.RDS` - Pathway enrichment data
+- **GMT files**: `GSEA_KEGG.gmt`, `GSEA_hallmark.gmt` - Gene set definitions
 - **Analysis backend**: `Protemic.R` - Core analysis functions with naming pattern `dbGIST_Proteomics_*`
+- **Correlation cache**: `correlation_cache/` - Pre-computed correlation results for performance
 
 ### Key R Functions (Protemic.R)
 - `dbGIST_Proteomics_boxplot_TvsN()`: Tumor vs Normal comparison
@@ -94,6 +109,12 @@ USE_OPENROUTER=true/false
 OPENROUTER_API_KEY=your_key
 OPENROUTER_API_URL=https://openrouter.ai/api/v1/chat/completions
 OPENROUTER_MODEL=google/gemini-2.5-flash
+
+# Alternative AI service (Doubao)
+USE_DOUBAO=true/false
+DOUBAO_API_KEY=your_key
+DOUBAO_API_URL=https://ark.cn-beijing.volces.com/api/v3/chat/completions
+DOUBAO_MODEL=ep-20241223165849-sczng
 ```
 
 ### Module Creation
@@ -110,13 +131,18 @@ source("create_modules.R")
 - **patchwork**: Plot composition
 - **pROC**: ROC curve analysis
 - **bs4Dash**: Modern dashboard UI
+- **survival/survminer**: Survival analysis and visualization
+- **clusterProfiler**: Pathway enrichment analysis
 - **Statistical Tests**: t-tests, correlation analysis, survival analysis
+- **renv**: R package dependency management
 
 ### Common Development Tasks
 - **Adding new clinical feature**: Create `module1_feature_ui.R` and `module1_feature_server.R` in modules/
 - **Modifying analysis functions**: Edit `Protemic.R` and ensure function naming follows `dbGIST_Proteomics_*` pattern
 - **Updating UI theme**: Modify `www/custom.css` using existing CSS variables
 - **Adding new data**: Update `Protemics_list.rds` and reload in `global.R`
+- **Performance optimization**: Use `correlation_cache/` for storing pre-computed results
+- **Pathway analysis**: Modify GMT files and pathway enrichment functions in `pathway.R`
 
 ### Port Management
 - Port 4965: Standard application
